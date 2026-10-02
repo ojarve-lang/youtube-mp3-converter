@@ -37,7 +37,7 @@ Projekt on loodud Pythoniga ning kasutab video töötlemiseks `yt-dlp` ja `FFmpe
 Klooni projekt GitHubist või laadi see ZIP-failina alla.
 
 ```bash
-git clone PROJEKTI_GITHUB_URL
+git clone https://github.com/ojarve-lang/youtube-mp3-converter.git
 cd youtube-mp3-converter
 ```
 
