@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="et">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>YouTube MP3 Converter</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+
+  <body class="bg-dark text-light">
+    <div
+      class="container min-vh-100 d-flex align-items-center justify-content-center"
+    >
+      <div class="card shadow-lg p-4" style="max-width: 650px; width: 100%">
+        <div class="card-body">
+          <h1 class="text-center mb-3">🎵 YouTube → MP3 Converter</h1>
+
+          <p class="text-center text-muted mb-4">
+            Sisesta video aadress ja teisenda enda või muu allalaadimiseks
+            lubatud sisu MP3-failiks.
+          </p>
+
+          <form method="POST" id="converterForm">
+            <label for="url" class="form-label"> Video URL </label>
+
+            <input
+              type="url"
+              id="url"
+              name="url"
+              class="form-control mb-3"
+              placeholder="https://www.youtube.com/watch?v=..."
+              value="{{ request.form.get ('url' , '') }}"
+              required
+            />
+
+            <button type="submit" class="btn btn-primary w-100">
+              🎧 Teisenda MP3-ks
+            </button>
+          </form>
+
+          {% if message %}
+          <div class="alert alert-success mt-4 text-center">{{ message }}</div>
+          {% endif %} {% if error_message %}
+          <div class="alert alert-danger mt-4 text-center">
+            {{ error_message }}
+          </div>
+          {% endif %} {% if video_title %}
+          <div class="result-card text-center mb-3">
+            <div class="result-icon">🎵</div>
+
+            <strong class="d-block"> {{ video_title }} </strong>
+
+            <div class="small text-muted mt-1">MP3 • 192 kbps</div>
+          </div>
+          {% endif %} {% if filename %}
+          <a
+            href="{{ url_for('download_file', filename=filename) }}"
+            class="btn btn-success w-100"
+          >
+            ⬇ Laadi MP3 alla
+          </a>
+          <a
+            href="{{ url_for('index') }}"
+            class="btn btn-outline-light w-100 mt-2"
+          >
+            ＋ Teisenda uus video
+          </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <hr class="border-secondary mt-4" />
+
+    <p class="footer-text text-center small mb-0">
+      🎧 Personal MP3 Converter
+      <br />
+      Kasuta ainult enda või allalaadimiseks lubatud sisu.
+    </p>
+    <script>
+      const form = document.getElementById("converterForm");
+      const button = form.querySelector("button");
+
+      form.addEventListener("submit", function () {
+        button.disabled = true;
+        button.innerHTML = `
+          <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true">
+          </span>
+          Konverteerin... palun oota
+      `;
+      });
+    </script>
+  </body>
+</html>

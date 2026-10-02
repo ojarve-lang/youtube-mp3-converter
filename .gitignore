@@ -1,0 +1,18 @@
+# Python virtual environment
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Konverteeritud MP3-failid
+downloads/*
+
+# Jäta downloads kaust projekti alles
+!downloads/.gitkeep
+
+# VS Code
+.vscode/
+
+# Windows
+Thumbs.db
