@@ -14,207 +14,195 @@
     />
   </head>
 
-<body class="bg-dark text-light">
+  <body class="bg-dark text-light">
+    <div
+      class="container min-vh-100 d-flex align-items-center justify-content-center"
+    >
+      <div class="card shadow-lg p-4" style="max-width: 650px; width: 100%">
+        <div class="card-body">
+          <!-- Pealkiri -->
+          <h1 class="text-center mb-3">🎵 YouTube → MP3 Converter</h1>
 
-  <div class="container min-vh-100 d-flex align-items-center justify-content-center">
+          <p class="text-center text-muted mb-4">
+            Sisesta video aadress ja teisenda enda või muu allalaadimiseks
+            lubatud sisu MP3-failiks.
+          </p>
 
-    <div class="card shadow-lg p-4" style="max-width: 650px; width: 100%">
-      <div class="card-body">
+          <!-- Vorm -->
+          <form method="POST" id="converterForm">
+            <label for="url" class="form-label"> Video URL </label>
 
-        <!-- Pealkiri -->
-        <h1 class="text-center mb-3">
-          🎵 YouTube → MP3 Converter
-        </h1>
-
-        <p class="text-center text-muted mb-4">
-          Sisesta video aadress ja teisenda enda või muu allalaadimiseks
-          lubatud sisu MP3-failiks.
-        </p>
-
-        <!-- Vorm -->
-        <form method="POST" id="converterForm">
-
-          <label for="url" class="form-label">
-            Video URL
-          </label>
-
-          <input
-            type="url"
-            id="url"
-            name="url"
-            class="form-control mb-3"
-            placeholder="https://www.youtube.com/watch?v=..."
-            value="{{ request.form.get('url', '') }}"
-            required
-          />
-
-          <!-- Helikvaliteet -->
-          <label for="quality" class="form-label">
-            Helikvaliteet
-          </label>
-
-          <select
-            id="quality"
-            name="quality"
-            class="form-select mb-3"
-          >
-            <option
-              value="128"
-              {% if audio_quality == "128" %}selected{% endif %}
-            >
-              128 kbps – väiksem fail
-            </option>
-
-            <option
-              value="192"
-              {% if audio_quality == "192" %}selected{% endif %}
-            >
-              192 kbps – hea kvaliteet
-            </option>
-
-            <option
-              value="320"
-              {% if audio_quality == "320" %}selected{% endif %}
-            >
-              320 kbps – parim kvaliteet
-            </option>
-          </select>
-
-          <!-- Konverteerimise nupp -->
-          <button
-            type="submit"
-            class="btn btn-primary w-100"
-          >
-            🎧 Teisenda MP3-ks
-          </button>
-
-        </form>
-
-
-        <!-- Õnnestumise teade -->
-        {% if message %}
-        <div class="alert alert-success mt-4 text-center">
-          {{ message }}
-        </div>
-        {% endif %}
-
-
-        <!-- Veateade -->
-        {% if error_message %}
-        <div class="alert alert-danger mt-4 text-center">
-          {{ error_message }}
-        </div>
-        {% endif %}
-
-
-        <!-- Tulemus -->
-        {% if video_title %}
-
-        <div class="result-card text-center mb-3">
-
-          <!-- Video pisipilt -->
-          {% if video_thumbnail %}
-          <div class="thumbnail-wrapper mb-3">
-
-            <img
-              src="{{ video_thumbnail }}"
-              alt="Video pisipilt"
-              class="video-thumbnail"
+            <input
+              type="url"
+              id="url"
+              name="url"
+              class="form-control mb-3"
+              placeholder="https://www.youtube.com/watch?v=..."
+              value="{{ request.form.get('url', '') }}"
+              required
             />
 
-            <!-- Video kestus -->
-            {% if video_duration %}
-            <span class="duration-badge">
-              {{ video_duration }}
-            </span>
+            <!-- Helikvaliteet -->
+            <label for="quality" class="form-label">
+  Helikvaliteet
+</label>
+
+<select id="quality" name="quality" class="form-select mb-3">
+  <option value="128" {% if audio_quality == "128" %}selected{% endif %}>
+    128 kbps – väiksem fail
+  </option>
+
+  <option value="192" {% if audio_quality == "192" %}selected{% endif %}>
+    192 kbps – hea kvaliteet
+  </option>
+
+  <option value="320" {% if audio_quality == "320" %}selected{% endif %}>
+    320 kbps – parim kvaliteet
+  </option>
+</select>
+            <!-- Konverteerimise nupp -->
+            <button type="submit" class="btn btn-primary w-100">
+              🎧 Teisenda MP3-ks
+            </button>
+          </form>
+          <!-- Konverteerimise progress -->
+          <div id="progressContainer" class="mt-4 d-none">
+            <div class="d-flex justify-content-between mb-2">
+              <span id="progressText">Valmistun...</span>
+              <span id="progressPercent">0%</span>
+            </div>
+
+            <div class="progress">
+              <div
+                id="progressBar"
+                class="progress-bar progress-bar-striped progress-bar-animated"
+                role="progressbar"
+                style="width: 0%"
+                aria-valuenow="0"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Õnnestumise teade -->
+          {% if message %}
+          <div class="alert alert-success mt-4 text-center">{{ message }}</div>
+          {% endif %}
+
+          <!-- Veateade -->
+          {% if error_message %}
+          <div class="alert alert-danger mt-4 text-center">
+            {{ error_message }}
+          </div>
+          {% endif %}
+
+          <!-- Tulemus -->
+          {% if video_title %}
+
+          <div class="result-card text-center mb-3">
+            <!-- Video pisipilt -->
+            {% if video_thumbnail %}
+            <div class="thumbnail-wrapper mb-3">
+              <img
+                src="{{ video_thumbnail }}"
+                alt="Video pisipilt"
+                class="video-thumbnail"
+              />
+
+              <!-- Video kestus -->
+              {% if video_duration %}
+              <span class="duration-badge"> {{ video_duration }} </span>
+              {% endif %}
+            </div>
             {% endif %}
 
-          </div>
-          {% endif %}
+            <!-- Muusika ikoon -->
+            <div class="result-icon">🎵</div>
 
+            <!-- Video pealkiri -->
+            <strong class="d-block"> {{ video_title }} </strong>
 
-          <!-- Muusika ikoon -->
-          <div class="result-icon">
-            🎵
-          </div>
+            <!-- MP3 kvaliteet -->
+            <div class="small text-muted mt-1">
+              🎵 MP3 • {{ audio_quality }} kbps
+            </div>
 
-
-          <!-- Video pealkiri -->
-          <strong class="d-block">
-            {{ video_title }}
-          </strong>
-
-
-          <!-- MP3 kvaliteet -->
-          <div class="small text-muted mt-1">
-            🎵 MP3 • {{ audio_quality }} kbps
-          </div>
-
-
-          <!-- Faili suurus -->
-          {% if file_size %}
-          <div class="small text-muted mt-2">
-            💾 Faili suurus: {{ file_size }}
-          </div>
-          {% endif %}
-
+            <!-- Faili suurus -->
+            {% if file_size %}
+            <div class="small text-muted mt-2">
+              💾 Faili suurus: {{ file_size }}
+            </div>
+            {% endif %}
 
           <!-- Failinimi -->
-          {% if filename %}
-          <div class="small text-muted mt-1">
-            📄 {{ filename }}
+{% if filename %}
+<div class="small text-muted mt-1">📄 {{ filename }}</div>
+{% endif %}
           </div>
+
           {% endif %}
 
+                  
+          {% if filename %}
+
+<a
+  href="{{ url_for('download_file', download_name=filename) }}"
+  class="btn btn-success w-100"
+>
+  ⬇ Laadi MP3 alla
+</a>
+
+<a
+  href="{{ url_for('index') }}"
+  class="btn btn-outline-light w-100 mt-2"
+>
+  ＋ Teisenda uus video
+</a>
+
+{% endif %}
+
+          <!-- Footer -->
+          <hr class="border-secondary mt-4" />
+
+          <p class="footer-text text-center small mb-0">
+            🎧 Personal MP3 Converter
+            <br />
+            Kasuta ainult enda või allalaadimiseks lubatud sisu.
+          </p>
         </div>
-
-        {% endif %}
-
-
-        <!-- Allalaadimise nupud -->
-        {% if filename %}
-
-        <a
-          href="{{ url_for('download_file', filename=filename) }}"
-          class="btn btn-success w-100"
-        >
-          ⬇ Laadi MP3 alla
-        </a>
-
-        <a
-          href="{{ url_for('index') }}"
-          class="btn btn-outline-light w-100 mt-2"
-        >
-          ＋ Teisenda uus video
-        </a>
-
-        {% endif %}
-
-
-        <!-- Footer -->
-        <hr class="border-secondary mt-4" />
-
-        <p class="footer-text text-center small mb-0">
-          🎧 Personal MP3 Converter
-          <br />
-          Kasuta ainult enda või allalaadimiseks lubatud sisu.
-        </p>
-
       </div>
     </div>
 
-  </div>
+    <!-- Laadimisanimatsioon -->
+    <script>
+      const form = document.getElementById("converterForm");
+      const button = form.querySelector("button");
+      const progressContainer = document.getElementById("progressContainer");
+      const progressBar = document.getElementById("progressBar");
+      const progressText = document.getElementById("progressText");
+      const progressPercent = document.getElementById("progressPercent");
 
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
 
-  <!-- Laadimisanimatsioon -->
-  <script>
-    const form = document.getElementById("converterForm");
-    const button = form.querySelector("button");
+        const formData = new FormData(form);
+        progressContainer.classList.remove("d-none");
 
-    form.addEventListener("submit", function () {
-      button.disabled = true;
+        const progressInterval = setInterval(async function () {
+          const response = await fetch("/progress");
+          const data = await response.json();
 
-      button.innerHTML = `
+          progressBar.style.width = data.percent + "%";
+          progressBar.setAttribute("aria-valuenow", data.percent);
+
+          progressPercent.textContent = data.percent + "%";
+          progressText.textContent = data.status;
+        }, 500);
+
+        button.disabled = true;
+
+        button.innerHTML = `
         <span
           class="spinner-border spinner-border-sm me-2"
           role="status"
@@ -222,9 +210,31 @@
         </span>
         Konverteerin... palun oota
       `;
-    });
-  </script>
 
-</body>
+        fetch("/", {
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.text())
+          .then((html) => {
+            clearInterval(progressInterval);
+
+            document.open();
+            document.write(html);
+            document.close();
+          })
+          .catch((error) => {
+            clearInterval(progressInterval);
+
+            progressText.textContent = "Tekkis ühenduse viga.";
+            progressBar.classList.remove("progress-bar-animated");
+
+            button.disabled = false;
+            button.textContent = "🎧 Proovi uuesti";
+
+            console.error(error);
+          });
+      });
+    </script>
   </body>
 </html>

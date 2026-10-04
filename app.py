@@ -1,8 +1,48 @@
-from flask import Flask, render_template, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, jsonify
 import yt_dlp
 import os
+import re
+
+
+class file_name:
+    def __init__(self, raw_name):
+        self.raw_name = raw_name or "download.mp3"
+
+    def sanitize(self):
+        safe_name = os.path.basename(self.raw_name).replace("\\", "/")
+        safe_name = safe_name.split("/")[-1]
+        safe_name = re.sub(r"[^A-Za-z0-9_. -]", "_", safe_name)
+        safe_name = safe_name.strip()
+        return safe_name if safe_name else "download.mp3"
+
+    def full_path(self):
+        return os.path.join("downloads", self.sanitize())
+
+    def __str__(self):
+        return self.sanitize()
+
 
 app = Flask(__name__)
+
+
+progress_data = {
+    "percent": 0,
+    "status": "Ootan..."
+}  
+def progress_hook(data):
+    if data["status"] == "downloading":
+        downloaded = data.get("downloaded_bytes", 0)
+        total = data.get("total_bytes") or data.get("total_bytes_estimate")
+
+        if total:
+            percent = int(downloaded / total * 100)
+
+            progress_data["percent"] = percent
+            progress_data["status"] = "Laadin heli alla..."
+
+    elif data["status"] == "finished":
+        progress_data["percent"] = 100
+        progress_data["status"] = "Allalaadimine valmis, teisendan MP3-ks..."
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -17,6 +57,10 @@ def index():
     audio_quality = "192"  # Default audio quality
 
     if request.method == "POST":
+        progress_data["percent"] = 0
+        progress_data["status"] = "Valmistun..."
+
+
         url = request.form.get("url")
         audio_quality = request.form.get("quality", "192")
           # Get selected audio quality
@@ -26,6 +70,7 @@ def index():
             "format": "bestaudio/best",
             "noplaylist": True,
             "playlist_items": "1",
+            "progress_hooks": [progress_hook],
             "outtmpl": "downloads/%(title)s.%(ext)s",
             "postprocessors": [
                 {
@@ -76,14 +121,20 @@ def index():
     )
 
 
-@app.route("/download/<path:filename>")
-def download_file(filename):
+@app.route("/download/<path:download_name>")
+def download_file(download_name):
+    safe_file = file_name(download_name)
+
     return send_from_directory(
         "downloads",
-        filename,
+        filename=safe_file.sanitize(),
         as_attachment=True
     )
 
+
+@app.route("/progress")
+def progress():
+    return jsonify(progress_data)
 
 if __name__ == "__main__":
     app.run(debug=True)
