@@ -21,7 +21,16 @@
       <div class="card shadow-lg p-4" style="max-width: 650px; width: 100%">
         <div class="card-body">
           <!-- Pealkiri -->
-          <h1 class="text-center mb-3">🎵 YouTube → MP3 Converter</h1>
+          <div class="app-brand text-center mb-4">
+  <div class="brand-icon">♫</div>
+  <h1 class="mb-1">AudioFlow</h1>
+  <div class="brand-subtitle">YouTube → MP3 Converter</div>
+
+  <div class="app-status">
+  <span class="status-dot"></span>
+  Ready
+ </div>
+</div>
 
           <p class="text-center text-muted mb-4">
             Sisesta video aadress ja teisenda enda või muu allalaadimiseks
@@ -32,34 +41,75 @@
           <form method="POST" id="converterForm">
             <label for="url" class="form-label"> Video URL </label>
 
-            <input
-              type="url"
-              id="url"
-              name="url"
-              class="form-control mb-3"
-              placeholder="https://www.youtube.com/watch?v=..."
-              value="{{ request.form.get('url', '') }}"
-              required
-            />
+           <div class="url-input-group mb-3">
+  <input
+    type="url"
+    id="url"
+    name="url"
+    class="form-control"
+    placeholder="https://www.youtube.com/watch?v=..."
+    value="{{ request.form.get('url', '') }}"
+    required
+  />
 
+  <button
+    type="button"
+    id="pasteButton"
+    class="paste-button"
+  >
+    📋 Paste
+  </button>
+</div>
             <!-- Helikvaliteet -->
-            <label for="quality" class="form-label">
-  Helikvaliteet
-</label>
+ <div class="quality-section mb-4">
+  <label class="form-label">Helikvaliteet</label>
 
-<select id="quality" name="quality" class="form-select mb-3">
-  <option value="128" {% if audio_quality == "128" %}selected{% endif %}>
-    128 kbps – väiksem fail
-  </option>
+  <div class="quality-options">
 
-  <option value="192" {% if audio_quality == "192" %}selected{% endif %}>
-    192 kbps – hea kvaliteet
-  </option>
+    <label class="quality-option">
+      <input
+        type="radio"
+        name="quality"
+        value="128"
+        {% if audio_quality == "128" %}checked{% endif %}
+      >
+      <span class="quality-card">
+        <strong>128</strong>
+        <small>kbps</small>
+        <span>Väiksem fail</span>
+      </span>
+    </label>
 
-  <option value="320" {% if audio_quality == "320" %}selected{% endif %}>
-    320 kbps – parim kvaliteet
-  </option>
-</select>
+    <label class="quality-option">
+      <input
+        type="radio"
+        name="quality"
+        value="192"
+        {% if audio_quality == "192" %}checked{% endif %}
+      >
+      <span class="quality-card">
+        <strong>192</strong>
+        <small>kbps</small>
+        <span>Soovitatud</span>
+      </span>
+    </label>
+
+    <label class="quality-option">
+      <input
+        type="radio"
+        name="quality"
+        value="320"
+        {% if audio_quality == "320" %}checked{% endif %}
+      >
+      <span class="quality-card">
+        <strong>320</strong>
+        <small>kbps</small>
+        <span>Parim kvaliteet</span>
+      </span>
+    </label>
+
+  </div>
+</div>
             <!-- Konverteerimise nupp -->
             <button type="submit" class="btn btn-primary w-100">
               🎧 Teisenda MP3-ks
@@ -235,6 +285,29 @@
             console.error(error);
           });
       });
+      const pasteButton = document.getElementById("pasteButton");
+const urlInput = document.getElementById("url");
+
+pasteButton.addEventListener("click", async function () {
+  try {
+    const clipboardText = await navigator.clipboard.readText();
+
+    urlInput.value = clipboardText;
+    urlInput.focus();
+
+    pasteButton.textContent = "✓ Lisatud";
+
+    setTimeout(() => {
+      pasteButton.textContent = "📋 Paste";
+    }, 1500);
+  } catch (error) {
+    pasteButton.textContent = "Ei saanud lugeda";
+
+    setTimeout(() => {
+      pasteButton.textContent = "📋 Paste";
+    }, 1500);
+  }
+});
     </script>
   </body>
 </html>

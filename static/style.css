@@ -104,3 +104,519 @@ h1 {
   font-size: 0.85rem;
   font-weight: 600;
 }
+/* ===== AudioFlow branding ===== */
+
+.app-brand {
+  margin-bottom: 32px;
+}
+
+.brand-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 14px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 32px;
+  font-weight: 700;
+
+  border-radius: 18px;
+
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+
+  box-shadow:
+    0 10px 30px rgba(124, 58, 237, 0.35),
+    0 0 40px rgba(37, 99, 235, 0.15);
+}
+
+.app-brand h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.brand-subtitle {
+  font-size: 0.9rem;
+  color: #94a3b8;
+}
+/* ===== Modern app card ===== */
+
+.card {
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 28px;
+
+  box-shadow:
+    0 30px 80px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+
+  overflow: hidden;
+}
+/* ===== Modern URL input ===== */
+
+.form-control {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+
+  color: #ffffff;
+
+  padding: 14px 16px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.form-control::placeholder {
+  color: #64748b;
+}
+
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.08);
+  color: #ffffff;
+
+  border-color: #7c3aed;
+
+  box-shadow:
+    0 0 0 4px rgba(124, 58, 237, 0.15);
+
+  outline: none;
+}
+/* ===== Audio quality cards ===== */
+
+.quality-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.quality-option {
+  cursor: pointer;
+}
+
+.quality-option input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.quality-card {
+  min-height: 95px;
+  padding: 14px 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.quality-card strong {
+  font-size: 1.25rem;
+  color: #ffffff;
+}
+
+.quality-card small {
+  color: #94a3b8;
+  margin-bottom: 4px;
+}
+
+.quality-card span {
+  font-size: 0.72rem;
+  color: #64748b;
+}
+
+.quality-option:hover .quality-card {
+  transform: translateY(-2px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(124, 58, 237, 0.5);
+}
+
+.quality-option input:checked + .quality-card {
+  background: rgba(124, 58, 237, 0.14);
+  border-color: #8b5cf6;
+
+  box-shadow:
+    0 0 0 1px rgba(139, 92, 246, 0.25),
+    0 8px 25px rgba(124, 58, 237, 0.15);
+}
+
+.quality-option input:checked + .quality-card strong {
+  color: #c4b5fd;
+}
+/* ===== Main convert button ===== */
+
+.btn-primary {
+  border: none;
+  border-radius: 15px;
+  padding: 14px 20px;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+
+  box-shadow:
+    0 10px 25px rgba(37, 99, 235, 0.22),
+    0 4px 15px rgba(124, 58, 237, 0.18);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+
+  box-shadow:
+    0 14px 32px rgba(37, 99, 235, 0.3),
+    0 6px 20px rgba(124, 58, 237, 0.22);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.75;
+  transform: none;
+}
+/* ===== AudioFlow progress ===== */
+
+#progressContainer {
+  padding: 18px;
+  margin-top: 22px;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+}
+
+#progressText {
+  color: #cbd5e1;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+#progressPercent {
+  color: #a78bfa;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.progress {
+  height: 9px;
+  overflow: hidden;
+
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+}
+
+.progress-bar {
+  border-radius: 20px;
+
+  background: linear-gradient(
+    90deg,
+    #7c3aed,
+    #6366f1,
+    #3b82f6
+  );
+
+  box-shadow: 0 0 18px rgba(99, 102, 241, 0.5);
+
+  transition: width 0.35s ease;
+}
+/* ===== Finished MP3 result ===== */
+
+.result-card {
+  margin-top: 22px;
+  padding: 18px;
+
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 12px 35px rgba(0, 0, 0, 0.18);
+}
+
+.thumbnail-wrapper {
+  position: relative;
+  overflow: hidden;
+
+  border-radius: 14px;
+
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.video-thumbnail {
+  display: block;
+  width: 100%;
+  max-height: 260px;
+  object-fit: cover;
+
+  transition: transform 0.35s ease;
+}
+
+.thumbnail-wrapper:hover .video-thumbnail {
+  transform: scale(1.025);
+}
+
+.duration-badge {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+
+  padding: 4px 8px;
+
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 600;
+
+  background: rgba(0, 0, 0, 0.78);
+  border-radius: 7px;
+
+  backdrop-filter: blur(6px);
+}
+
+.result-icon {
+  width: 44px;
+  height: 44px;
+  margin: -22px auto 10px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  font-size: 20px;
+
+  background: linear-gradient(135deg, #7c3aed, #2563eb);
+  border: 4px solid #0f172a;
+  border-radius: 50%;
+
+  box-shadow: 0 6px 18px rgba(124, 58, 237, 0.3);
+}
+
+.result-card strong {
+  color: #f8fafc;
+  font-size: 1rem;
+}
+
+.result-card .text-muted {
+  color: #94a3b8 !important;
+}
+/* ===== Download button ===== */
+
+.btn-success {
+  margin-top: 6px;
+  padding: 14px 20px;
+
+  border: none;
+  border-radius: 15px;
+
+  font-size: 1rem;
+  font-weight: 600;
+
+  color: #ffffff;
+
+  background: linear-gradient(
+    135deg,
+    #059669,
+    #10b981
+  );
+
+  box-shadow:
+    0 10px 25px rgba(16, 185, 129, 0.2);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s ease;
+}
+
+.btn-success:hover {
+  transform: translateY(-2px);
+
+  background: linear-gradient(
+    135deg,
+    #10b981,
+    #34d399
+  );
+
+  box-shadow:
+    0 14px 30px rgba(16, 185, 129, 0.3);
+}
+
+.btn-success:active {
+  transform: translateY(0);
+}
+/* ===== New conversion button ===== */
+
+.btn-outline-light {
+  padding: 12px 20px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 15px;
+
+  color: #cbd5e1;
+
+  background: rgba(255, 255, 255, 0.035);
+
+  font-weight: 500;
+
+  transition:
+    transform 0.2s ease,
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.btn-outline-light:hover {
+  transform: translateY(-2px);
+
+  color: #ffffff;
+
+  background: rgba(124, 58, 237, 0.12);
+  border-color: rgba(139, 92, 246, 0.45);
+}
+
+.btn-outline-light:active {
+  transform: translateY(0);
+}
+/* ===== AudioFlow background ===== */
+
+body {
+  min-height: 100vh;
+
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(124, 58, 237, 0.18),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 80% 75%,
+      rgba(37, 99, 235, 0.16),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #070b14 0%,
+      #0b1120 50%,
+      #080d18 100%
+    );
+
+  background-attachment: fixed;
+}
+/* ===== App status ===== */
+
+.app-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  margin-top: 10px;
+  padding: 5px 10px;
+
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #94a3b8;
+
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 20px;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  background: #22c55e;
+  border-radius: 50%;
+
+  box-shadow: 0 0 10px rgba(34, 197, 94, 0.8);
+
+  animation: statusPulse 2s infinite;
+}
+
+@keyframes statusPulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.55;
+    transform: scale(0.8);
+  }
+}
+/* ===== URL input with Paste button ===== */
+
+.url-input-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.url-input-group .form-control {
+  flex: 1;
+  min-width: 0;
+}
+
+.paste-button {
+  flex-shrink: 0;
+
+  padding: 14px 16px;
+
+  color: #cbd5e1;
+  font-size: 0.85rem;
+  font-weight: 600;
+
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+
+  cursor: pointer;
+
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.paste-button:hover {
+  color: #ffffff;
+
+  background: rgba(124, 58, 237, 0.14);
+  border-color: rgba(139, 92, 246, 0.5);
+
+  transform: translateY(-1px);
+}
+
+.paste-button:active {
+  transform: translateY(0);
+}
