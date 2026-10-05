@@ -620,3 +620,36 @@ body {
 .paste-button:active {
   transform: translateY(0);
 }
+/* ===== URL validation status ===== */
+
+.url-status {
+  min-height: 20px;
+  margin-top: -6px;
+  margin-bottom: 12px;
+
+  font-size: 0.78rem;
+  font-weight: 500;
+
+  color: #34d399;
+
+  opacity: 0;
+  transform: translateY(-3px);
+
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease;
+}
+
+.url-status:not(:empty) {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ===== URL validation states ===== */
+
+.url-status.success {
+  color: #34d399;
+}
+
+.url-status.error {
+  color: #fb7185;
+}

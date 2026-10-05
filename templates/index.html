@@ -60,6 +60,8 @@
     📋 Paste
   </button>
 </div>
+
+<div id="urlStatus" class="url-status"></div>
             <!-- Helikvaliteet -->
  <div class="quality-section mb-4">
   <label class="form-label">Helikvaliteet</label>
@@ -236,6 +238,28 @@
       form.addEventListener("submit", function (event) {
         event.preventDefault();
 
+        const value = urlInput.value.trim();
+
+try {
+  const url = new URL(value);
+
+  const isYouTube =
+    url.hostname === "youtube.com" ||
+    url.hostname === "www.youtube.com" ||
+    url.hostname === "m.youtube.com" ||
+    url.hostname === "youtu.be";
+
+  if (!isYouTube) {
+    urlStatus.textContent = "⚠ Sisesta korrektne YouTube'i link";
+    urlStatus.className = "url-status error";
+    return;
+  }
+} catch {
+  urlStatus.textContent = "⚠ Sisesta korrektne YouTube'i link";
+  urlStatus.className = "url-status error";
+  return;
+}
+
         const formData = new FormData(form);
         progressContainer.classList.remove("d-none");
 
@@ -288,12 +312,40 @@
       const pasteButton = document.getElementById("pasteButton");
 const urlInput = document.getElementById("url");
 
+const urlStatus = document.getElementById("urlStatus");
+
+urlInput.addEventListener("input", function () {
+  const value = urlInput.value.trim();
+
+  try {
+    const url = new URL(value);
+
+    const isYouTube =
+      url.hostname === "youtube.com" ||
+      url.hostname === "www.youtube.com" ||
+      url.hostname === "m.youtube.com" ||
+      url.hostname === "youtu.be";
+
+  if (isYouTube) {
+  urlStatus.textContent = "✓ YouTube link tuvastatud";
+  urlStatus.className = "url-status success";
+} else {
+  urlStatus.textContent = "⚠ Sisesta YouTube'i link";
+  urlStatus.className = "url-status error";
+}
+  }catch {
+  urlStatus.textContent = "";
+  urlStatus.className = "url-status";
+}
+});
+
 pasteButton.addEventListener("click", async function () {
   try {
     const clipboardText = await navigator.clipboard.readText();
 
-    urlInput.value = clipboardText;
-    urlInput.focus();
+ urlInput.value = clipboardText;
+urlInput.dispatchEvent(new Event("input"));
+urlInput.focus();
 
     pasteButton.textContent = "✓ Lisatud";
 
